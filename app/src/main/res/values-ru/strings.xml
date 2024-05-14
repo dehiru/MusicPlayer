@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MusicPlayer</string>
+    <string name="unable_to_access_network">Не удается получить\nдоступ к сети</string>
+    <string name="error_403_forbidden">Ошибка 403\nДоступ запрещен</string>
+    <string name="authorization">Авторизация</string>
+    <string name="username">Имя пользователя</string>
+    <string name="password">Пароль</string>
+    <string name="wrong_username_or_password">Неправильное имя пользователя или пароль</string>
+    <string name="log_in">Войти</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="registration">Регистрация</string>
+    <string name="cansel">Отмена</string>
+    <string name="username_too_short">Имя пользователя слишком короткое</string>
+    <string name="username_too_long">Имя пользователя слишком длинное</string>
+    <string name="password_too_short">Пароль слишком короткий</string>
+    <string name="password_too_long">Пароль слишком длинный</string>
+    <string name="home">Главная</string>
+    <string name="favorite">Избранное</string>
+    <string name="playlists">Плейлисты</string>
+    <string name="profile">Профиль</string>
+    <string name="edit">Редактировать</string>
+    <string name="profile_editing">Редактирование профиля</string>
+    <string name="phone">Телефон</string>
+    <string name="email_wrong">Неправильный Email</string>
+    <string name="phone_too_short">Телефон слишком короткий</string>
+    <string name="phone_too_long">Телефон слишком длинный</string>
+    <string name="save">Сохранить</string>
+    <string name="new_playlist">+ новый</string>
+    <string name="playlist_empty">Плейлист пуст</string>
+    <string name="no_playlists">Нет плейлистов</string>
+</resources>
