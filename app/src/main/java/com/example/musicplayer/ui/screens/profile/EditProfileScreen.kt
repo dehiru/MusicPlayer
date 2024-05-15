@@ -33,7 +33,7 @@ import com.example.musicplayer.ui.theme.MusicPlayerTheme
 @Composable
 fun EditProfileScreen(
     onSaveButtonClicked: () -> Unit,
-    onCanselButtonClicked: () -> Unit,
+    onCancelButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -175,9 +175,9 @@ fun EditProfileScreen(
         }
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = onCanselButtonClicked
+            onClick = onCancelButtonClicked
         ) {
-            Text(text = stringResource(id = R.string.cansel))
+            Text(text = stringResource(id = R.string.cancel))
         }
     }
 }

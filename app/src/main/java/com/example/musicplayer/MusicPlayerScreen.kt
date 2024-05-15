@@ -53,7 +53,7 @@ fun MusicPlayerApp(
                     onRegisterButtonClicked = {
                         navController.navigate(MusicPlayerScreen.MainAppScreen.name)
                     },
-                    onCanselButtonClicked = {
+                    onCancelButtonClicked = {
                         navController.popBackStack(MusicPlayerScreen.Authorization.name, inclusive = false)
                     }
                 )

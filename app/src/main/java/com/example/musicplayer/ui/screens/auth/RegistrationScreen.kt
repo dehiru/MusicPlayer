@@ -34,7 +34,7 @@ import com.example.musicplayer.ui.theme.MusicPlayerTheme
 @Composable
 fun RegistrationScreen(
     onRegisterButtonClicked: () -> Unit,
-    onCanselButtonClicked: () -> Unit,
+    onCancelButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -134,9 +134,9 @@ fun RegistrationScreen(
         }
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = onCanselButtonClicked
+            onClick = onCancelButtonClicked
         ) {
-            Text(text = stringResource(id = R.string.cansel))
+            Text(text = stringResource(id = R.string.cancel))
         }
     }
 }

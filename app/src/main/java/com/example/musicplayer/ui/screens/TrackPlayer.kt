@@ -147,32 +147,24 @@ fun TrackPlayer(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp),
+                .padding(start = 16.dp, end = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Text(
-                    text = convertSecondsTime(currentTime / 1000),
-                    style = MaterialTheme.typography.labelMedium
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    text = convertSecondsTime(track.duration),
-                    style = MaterialTheme.typography.labelMedium
-                )
-            }
+            Text(
+                text = convertSecondsTime(currentTime / 1000),
+                style = MaterialTheme.typography.labelMedium
+            )
+            Text(
+                text = convertSecondsTime(track.duration),
+                style = MaterialTheme.typography.labelMedium
+            )
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.Center,
+                .padding(bottom = 16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
@@ -189,8 +181,7 @@ fun TrackPlayer(
                     } else {
                         mediaPlayer.seekTo(0)
                     }
-                },
-                modifier = Modifier.padding(end = 32.dp)
+                }
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.previous),
@@ -222,8 +213,7 @@ fun TrackPlayer(
                         track = next
                         needChangeSource = true
                     }
-                },
-                modifier = Modifier.padding(start = 32.dp)
+                }
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.next),

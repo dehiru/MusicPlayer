@@ -164,7 +164,7 @@ fun MainAppScreen(
                     onSaveButtonClicked =  {
                         navController.popBackStack(NavigationBarScreens.Profile.name, inclusive = false)
                     },
-                    onCanselButtonClicked =  {
+                    onCancelButtonClicked =  {
                         navController.popBackStack(NavigationBarScreens.Profile.name, inclusive = false)
                     }
                 )

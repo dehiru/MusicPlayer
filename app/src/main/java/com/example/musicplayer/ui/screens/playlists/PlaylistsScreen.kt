@@ -17,6 +17,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.example.musicplayer.R
 import com.example.musicplayer.data.Playlist
 import com.example.musicplayer.ui.MusicViewModel
+import com.example.musicplayer.ui.common.CreatePlaylistDialog
 
 @Composable
 fun PlaylistsScreen(
@@ -34,6 +39,10 @@ fun PlaylistsScreen(
     onPlaylistClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+    if(showDialog) {
+        CreatePlaylistDialog(viewModel)
+    }
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -57,10 +66,10 @@ fun PlaylistsScreen(
                     .wrapContentSize()
                     .padding(start = 32.dp),
                 onClick = {
-                    
+                    showDialog = true
                 }
             ) {
-                Text(text = stringResource(id = R.string.new_playlist))
+                Text(text = stringResource(id = R.string.new_playlist_button_text))
             }
         }
         if (viewModel.getPlaylists().isEmpty()) {
@@ -113,7 +122,7 @@ fun PlaylistCard(
                 .clickable {
                     viewModel.selectPlaylist(playlist)
                     onPlaylistClicked()
-                           },
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(horizontalArrangement = Arrangement.Start) {

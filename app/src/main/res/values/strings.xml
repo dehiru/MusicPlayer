@@ -9,7 +9,7 @@
     <string name="log_in">Log in</string>
     <string name="register">Register</string>
     <string name="registration">Registration</string>
-    <string name="cansel">Cansel</string>
+    <string name="cancel">Cancel</string>
     <string name="username_too_short">Username too short</string>
     <string name="username_too_long">Username too long</string>
     <string name="password_too_short">Password too short</string>
@@ -27,7 +27,10 @@
     <string name="phone_too_short">Phone too short</string>
     <string name="phone_too_long">Phone too long</string>
     <string name="save">Save</string>
-    <string name="new_playlist">+ new</string>
+    <string name="new_playlist_button_text">+ new</string>
     <string name="playlist_empty">Playlist is empty</string>
     <string name="no_playlists">No playlists</string>
+    <string name="new_playlist_dialog_title">New playlist</string>
+    <string name="playlist_name">Playlist name</string>
+    <string name="create">Create</string>
 </resources>
