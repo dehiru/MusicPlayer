@@ -41,7 +41,9 @@ fun MusicPlayerApp(
             composable(route = MusicPlayerScreen.Authorization.name) {
                 AuthorizationScreen(
                     onAuthorizationPassed = {
-                        navController.navigate(MusicPlayerScreen.MainAppScreen.name)
+                        navController.navigate(MusicPlayerScreen.MainAppScreen.name) {
+                            popUpTo(MusicPlayerScreen.Authorization.name) { inclusive = true }
+                        }
                     },
                     onRegisterButtonClicked = {
                         navController.navigate(MusicPlayerScreen.Registration.name)
@@ -51,7 +53,9 @@ fun MusicPlayerApp(
             composable(route = MusicPlayerScreen.Registration.name) {
                 RegistrationScreen(
                     onRegisterButtonClicked = {
-                        navController.navigate(MusicPlayerScreen.MainAppScreen.name)
+                        navController.navigate(MusicPlayerScreen.MainAppScreen.name) {
+                            popUpTo(MusicPlayerScreen.Authorization.name) { inclusive = true }
+                        }
                     },
                     onCancelButtonClicked = {
                         navController.popBackStack(MusicPlayerScreen.Authorization.name, inclusive = false)

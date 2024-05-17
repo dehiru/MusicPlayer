@@ -103,7 +103,9 @@ fun MainAppScreen(
                                 if(item.routeName.name == NavigationBarScreens.Favorite.name) {
                                     viewModel.selectPlaylistTracks(viewModel.getFavoritePlaylist())
                                 }
-                                navController.navigate(item.routeName.name)
+                                navController.navigate(item.routeName.name) {
+                                    popUpTo(NavigationBarScreens.Home.name) { inclusive = false }
+                                }
                             }
                         },
                         label = {
@@ -129,6 +131,7 @@ fun MainAppScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = NavigationBarScreens.Home.name) {
+                if (selectedItemIndex != 0) selectedItemIndex = 0
                 HomeScreen(
                     viewModel,
                     onTrackClicked = {
@@ -137,6 +140,7 @@ fun MainAppScreen(
                 )
             }
             composable(route = NavigationBarScreens.Favorite.name) {
+                if (selectedItemIndex != 1) selectedItemIndex = 1
                 FavoriteScreen(
                     viewModel,
                     onTrackClicked = {
@@ -145,6 +149,7 @@ fun MainAppScreen(
                 )
             }
             composable(route = NavigationBarScreens.Playlists.name) {
+                if (selectedItemIndex != 2) selectedItemIndex = 2
                 PlaylistsScreen(
                     viewModel,
                     onPlaylistClicked =  {
@@ -153,6 +158,7 @@ fun MainAppScreen(
                 )
             }
             composable(route = NavigationBarScreens.Profile.name) {
+                if (selectedItemIndex != 3) selectedItemIndex = 3
                 ProfileScreen(
                     onEditButtonClicked =  {
                         navController.navigate(SecondaryScreens.EditProfile.name)
