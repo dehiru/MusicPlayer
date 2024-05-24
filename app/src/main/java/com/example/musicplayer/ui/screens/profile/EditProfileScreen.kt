@@ -32,8 +32,7 @@ import com.example.musicplayer.ui.theme.MusicPlayerTheme
 
 @Composable
 fun EditProfileScreen(
-    onSaveButtonClicked: () -> Unit,
-    onCancelButtonClicked: () -> Unit,
+    onButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -53,20 +52,17 @@ fun EditProfileScreen(
             preferencesManager.getData("phone", "")
         )
     }
-    var isError by remember { mutableStateOf(false) }
-    var isUsernameTooShort  by remember { mutableStateOf(false) }
-    var isUsernameTooLong  by remember { mutableStateOf(false) }
-    var isEmailWrong  by remember { mutableStateOf(false) }
-    var isPhoneTooShort  by remember { mutableStateOf(false) }
-    var isPhoneTooLong  by remember { mutableStateOf(false) }
+    var usernameError by remember { mutableStateOf(false) }
+    var emailError  by remember { mutableStateOf(false) }
+    var phoneError  by remember { mutableStateOf(false) }
     var usernameSupportingText: Int? by remember { mutableStateOf(null) }
     var emailSupportingText: Int? by remember { mutableStateOf(null) }
     var phoneSupportingText: Int? by remember { mutableStateOf(null) }
 
-
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
+            .padding(8.dp)
             .imePadding()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -80,7 +76,7 @@ fun EditProfileScreen(
         EditTextField(
             label = R.string.username,
             supportingText = usernameSupportingText,
-            isError = isUsernameTooShort || isUsernameTooLong,
+            isError = usernameError,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
@@ -94,7 +90,7 @@ fun EditProfileScreen(
         EditTextField(
             label = R.string.email,
             supportingText = emailSupportingText,
-            isError = isEmailWrong,
+            isError = emailError,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
@@ -108,7 +104,7 @@ fun EditProfileScreen(
         EditTextField(
             label = R.string.phone,
             supportingText = phoneSupportingText,
-            isError = isPhoneTooShort || isPhoneTooLong,
+            isError = phoneError,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Phone,
                 imeAction = ImeAction.Done
@@ -125,14 +121,13 @@ fun EditProfileScreen(
                 .padding(bottom = 16.dp),
             onClick = {
                 if (usernameInput.length < 3) {
-                    isUsernameTooShort = true
+                    usernameError = true
                     usernameSupportingText = R.string.username_too_short
                 } else if (usernameInput.length > 30)  {
-                    isUsernameTooLong = true
+                    usernameError = true
                     usernameSupportingText = R.string.username_too_long
                 } else {
-                    isUsernameTooShort = false
-                    isUsernameTooLong = false
+                    usernameError = false
                     usernameSupportingText = null
                 }
                 if (
@@ -140,34 +135,27 @@ fun EditProfileScreen(
                     !emailInput.contains("@") ||
                     emailInput.length > 100
                     )  {
-                    isEmailWrong = true
+                    emailError = true
                     emailSupportingText = R.string.email_wrong
                 } else {
-                    isEmailWrong = false
-                    phoneSupportingText = null
+                    emailError = false
+                    emailSupportingText = null
                 }
                 if (phoneInput.length < 9) {
-                    isPhoneTooShort = true
+                    phoneError = true
                     phoneSupportingText = R.string.phone_too_short
                 } else if (phoneInput.length > 12)  {
-                    isPhoneTooLong = true
+                    phoneError = true
                     phoneSupportingText = R.string.phone_too_long
                 } else {
-                    isPhoneTooShort = false
-                    isPhoneTooLong = false
+                    phoneError = false
                     phoneSupportingText = null
                 }
-                isError = (isUsernameTooShort ||
-                        isUsernameTooLong ||
-                        isEmailWrong ||
-                        isPhoneTooShort ||
-                        isPhoneTooLong
-                        )
-                if (!isError) {
+                if (!(usernameError || emailError || phoneError)) {
                     preferencesManager.saveData("username", usernameInput)
                     preferencesManager.saveData("email", emailInput)
                     preferencesManager.saveData("phone", phoneInput)
-                    onSaveButtonClicked()
+                    onButtonClicked()
                 }
             }
         ) {
@@ -175,7 +163,7 @@ fun EditProfileScreen(
         }
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = onCancelButtonClicked
+            onClick = onButtonClicked
         ) {
             Text(text = stringResource(id = R.string.cancel))
         }
@@ -187,7 +175,7 @@ fun EditProfileScreen(
 fun EditProfileLayoutPreview() {
     MusicPlayerTheme {
         EditProfileScreen(
-            {}, {}
+            {}
         )
     }
 }

@@ -56,8 +56,8 @@ data class BottomNavigationItem(
 @Composable
 fun MainAppScreen(
     viewModel: MusicViewModel,
-    navController: NavHostController = rememberNavController(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
 ) {
     val items = listOf(
         BottomNavigationItem(
@@ -103,7 +103,9 @@ fun MainAppScreen(
                                 if(item.routeName.name == NavigationBarScreens.Favorite.name) {
                                     viewModel.selectPlaylistTracks(viewModel.getFavoritePlaylist())
                                 }
-                                navController.navigate(item.routeName.name)
+                                navController.navigate(item.routeName.name) {
+                                    popUpTo(NavigationBarScreens.Home.name) { inclusive = false }
+                                }
                             }
                         },
                         label = {
@@ -126,9 +128,10 @@ fun MainAppScreen(
         NavHost(
             navController = navController,
             startDestination = NavigationBarScreens.Home.name,
-            modifier = Modifier.padding(innerPadding)
+            modifier = modifier.padding(innerPadding)
         ) {
             composable(route = NavigationBarScreens.Home.name) {
+                if (selectedItemIndex != 0) selectedItemIndex = 0
                 HomeScreen(
                     viewModel,
                     onTrackClicked = {
@@ -137,6 +140,7 @@ fun MainAppScreen(
                 )
             }
             composable(route = NavigationBarScreens.Favorite.name) {
+                if (selectedItemIndex != 1) selectedItemIndex = 1
                 FavoriteScreen(
                     viewModel,
                     onTrackClicked = {
@@ -145,6 +149,7 @@ fun MainAppScreen(
                 )
             }
             composable(route = NavigationBarScreens.Playlists.name) {
+                if (selectedItemIndex != 2) selectedItemIndex = 2
                 PlaylistsScreen(
                     viewModel,
                     onPlaylistClicked =  {
@@ -153,6 +158,7 @@ fun MainAppScreen(
                 )
             }
             composable(route = NavigationBarScreens.Profile.name) {
+                if (selectedItemIndex != 3) selectedItemIndex = 3
                 ProfileScreen(
                     onEditButtonClicked =  {
                         navController.navigate(SecondaryScreens.EditProfile.name)
@@ -161,16 +167,21 @@ fun MainAppScreen(
             }
             composable(route = SecondaryScreens.EditProfile.name) {
                 EditProfileScreen(
-                    onSaveButtonClicked =  {
-                        navController.popBackStack(NavigationBarScreens.Profile.name, inclusive = false)
-                    },
-                    onCancelButtonClicked =  {
-                        navController.popBackStack(NavigationBarScreens.Profile.name, inclusive = false)
+                    onButtonClicked =  {
+                        navController.navigateUp()
                     }
                 )
             }
             composable(route = SecondaryScreens.SelectedPlaylist.name) {
-                SelectedPlaylistScreen(viewModel = viewModel)
+                SelectedPlaylistScreen(
+                    viewModel = viewModel,
+                    onArrowBackClicked = {
+                        navController.navigateUp()
+                    },
+                    onTrackClicked = {
+                        navController.navigate(SecondaryScreens.TrackPlayer.name)
+                    }
+                )
             }
             composable(route = SecondaryScreens.TrackPlayer.name) {
                 TrackPlayer(viewModel = viewModel)

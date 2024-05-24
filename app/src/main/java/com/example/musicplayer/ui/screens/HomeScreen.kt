@@ -26,7 +26,7 @@ fun HomeScreen(
 ) {
     if (viewModel.getHomePlaylist().isEmpty()) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.Center,

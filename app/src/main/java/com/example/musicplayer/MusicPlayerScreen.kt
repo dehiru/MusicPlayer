@@ -16,7 +16,7 @@ import com.example.musicplayer.ui.screens.auth.AuthorizationScreen
 import com.example.musicplayer.ui.screens.MainAppScreen
 import com.example.musicplayer.ui.screens.auth.RegistrationScreen
 
-enum class MusicPlayerScreen {
+enum class MusicPlayerScreens {
     Authorization,
     Registration,
     MainAppScreen
@@ -33,32 +33,36 @@ fun MusicPlayerApp(
     ) {
         NavHost(
             navController = navController,
-            startDestination = MusicPlayerScreen.Authorization.name,
+            startDestination = MusicPlayerScreens.Authorization.name,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp)
         ) {
-            composable(route = MusicPlayerScreen.Authorization.name) {
+            composable(route = MusicPlayerScreens.Authorization.name) {
                 AuthorizationScreen(
                     onAuthorizationPassed = {
-                        navController.navigate(MusicPlayerScreen.MainAppScreen.name)
+                        navController.navigate(MusicPlayerScreens.MainAppScreen.name) {
+                            popUpTo(MusicPlayerScreens.Authorization.name) { inclusive = true }
+                        }
                     },
                     onRegisterButtonClicked = {
-                        navController.navigate(MusicPlayerScreen.Registration.name)
+                        navController.navigate(MusicPlayerScreens.Registration.name)
                     }
                 )
             }
-            composable(route = MusicPlayerScreen.Registration.name) {
+            composable(route = MusicPlayerScreens.Registration.name) {
                 RegistrationScreen(
                     onRegisterButtonClicked = {
-                        navController.navigate(MusicPlayerScreen.MainAppScreen.name)
+                        navController.navigate(MusicPlayerScreens.MainAppScreen.name) {
+                            popUpTo(MusicPlayerScreens.Authorization.name) { inclusive = true }
+                        }
                     },
                     onCancelButtonClicked = {
-                        navController.popBackStack(MusicPlayerScreen.Authorization.name, inclusive = false)
+                        navController.navigateUp()
                     }
                 )
             }
-            composable(route = MusicPlayerScreen.MainAppScreen.name) {
+            composable(route = MusicPlayerScreens.MainAppScreen.name) {
                 MainAppScreen(viewModel)
             }
         }

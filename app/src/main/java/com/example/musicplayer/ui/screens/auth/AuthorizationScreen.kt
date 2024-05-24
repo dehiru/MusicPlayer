@@ -44,7 +44,7 @@ fun AuthorizationScreen(
     var isError by remember { mutableStateOf(false) }
     var supportingText: Int? by remember { mutableStateOf(null) }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
             .imePadding()

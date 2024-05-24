@@ -41,15 +41,12 @@ fun RegistrationScreen(
     val preferencesManager = remember { PreferencesManager(context) }
     var usernameInput by remember { mutableStateOf("") }
     var passwordInput by remember { mutableStateOf("") }
-    var isError by remember { mutableStateOf(false) }
-    var isUsernameTooShort  by remember { mutableStateOf(false) }
-    var isUsernameTooLong  by remember { mutableStateOf(false) }
-    var isPasswordTooShort  by remember { mutableStateOf(false) }
-    var isPasswordTooLong  by remember { mutableStateOf(false) }
+    var usernameError by remember { mutableStateOf(false) }
+    var passwordError by remember { mutableStateOf(false) }
     var usernameSupportingText: Int? by remember { mutableStateOf(null) }
     var passwordSupportingText: Int? by remember { mutableStateOf(null) }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
             .imePadding()
@@ -65,7 +62,7 @@ fun RegistrationScreen(
         EditTextField(
             label = R.string.username,
             supportingText = usernameSupportingText,
-            isError = isUsernameTooShort || isUsernameTooLong,
+            isError = usernameError,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
@@ -79,7 +76,7 @@ fun RegistrationScreen(
         EditPasswordField(
             label = R.string.password,
             supportingText = passwordSupportingText,
-            isError = isPasswordTooShort || isPasswordTooLong,
+            isError = passwordError,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
@@ -96,34 +93,26 @@ fun RegistrationScreen(
                 .padding(bottom = 16.dp),
             onClick = {
                 if (usernameInput.length < 3) {
-                    isUsernameTooShort = true
+                    usernameError = true
                     usernameSupportingText = R.string.username_too_short
                 } else if (usernameInput.length > 30)  {
-                    isUsernameTooLong = true
+                    usernameError = true
                     usernameSupportingText = R.string.username_too_long
                 } else {
-                    isUsernameTooShort = false
-                    isUsernameTooLong = false
+                    usernameError = false
                     usernameSupportingText = null
                 }
                 if (passwordInput.length < 4) {
-                    isPasswordTooShort = true
+                    passwordError = true
                     passwordSupportingText = R.string.password_too_short
                 } else if (passwordInput.length > 30) {
-                    isPasswordTooLong = true
+                    passwordError = true
                     passwordSupportingText = R.string.password_too_long
                 } else {
-                    isPasswordTooShort = false
-                    isPasswordTooLong = false
+                    passwordError = false
                     passwordSupportingText = null
                 }
-                isError = (
-                        isUsernameTooShort ||
-                                isUsernameTooLong ||
-                                isPasswordTooShort ||
-                                isPasswordTooLong
-                        )
-                if (!isError) {
+                if (!(usernameError || passwordError)) {
                     preferencesManager.saveData("username", usernameInput)
                     preferencesManager.saveData("password", passwordInput)
                     onRegisterButtonClicked()

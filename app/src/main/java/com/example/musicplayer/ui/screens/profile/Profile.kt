@@ -27,7 +27,9 @@ fun ProfileScreen(
     val context = LocalContext.current
     val preferencesManager = remember{ PreferencesManager(context) }
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {

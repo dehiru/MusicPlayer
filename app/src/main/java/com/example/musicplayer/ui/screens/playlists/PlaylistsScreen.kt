@@ -17,10 +17,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -33,23 +31,25 @@ import com.example.musicplayer.data.Playlist
 import com.example.musicplayer.ui.MusicViewModel
 import com.example.musicplayer.ui.common.CreatePlaylistDialog
 
+const val text_max_length = 26
+
 @Composable
 fun PlaylistsScreen(
     viewModel: MusicViewModel,
     onPlaylistClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var showDialog by remember { mutableStateOf(false) }
-    if(showDialog) {
+    val shouldShowDialog by viewModel.shouldShowDialog.collectAsState()
+    if (shouldShowDialog) {
         CreatePlaylistDialog(viewModel)
     }
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Row (
-            modifier = modifier.padding(16.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -66,7 +66,7 @@ fun PlaylistsScreen(
                     .wrapContentSize()
                     .padding(start = 32.dp),
                 onClick = {
-                    showDialog = true
+                    viewModel.setShowDialogState(true)
                 }
             ) {
                 Text(text = stringResource(id = R.string.new_playlist_button_text))
@@ -112,23 +112,25 @@ fun PlaylistCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable {
+                viewModel.selectPlaylist(playlist)
+                onPlaylistClicked()
+            },
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
             modifier = modifier
-                .fillMaxWidth()
-                .clickable {
-                    viewModel.selectPlaylist(playlist)
-                    onPlaylistClicked()
-                },
+                .padding(8.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(horizontalArrangement = Arrangement.Start) {
                 Text(
-                    text = playlist.name,
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = if (playlist.name.length > text_max_length) {
+                        playlist.name.take(text_max_length) + "..."
+                    } else playlist.name,
+                    style = MaterialTheme.typography.bodyLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(end = 8.dp)
@@ -141,7 +143,7 @@ fun PlaylistCard(
                 Text(
                     text = playlist.tracks.size.toString(),
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier.padding(end = 4.dp)
                 )
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.music_note),
