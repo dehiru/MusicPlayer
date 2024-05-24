@@ -23,7 +23,7 @@
     <string name="profile_editing">Profile editing</string>
     <string name="email" translatable="false">Email</string>
     <string name="phone">Phone</string>
-    <string name="email_wrong">Username too short</string>
+    <string name="email_wrong">Wrong email</string>
     <string name="phone_too_short">Phone too short</string>
     <string name="phone_too_long">Phone too long</string>
     <string name="save">Save</string>
@@ -33,4 +33,9 @@
     <string name="new_playlist_dialog_title">New playlist</string>
     <string name="playlist_name">Playlist name</string>
     <string name="create">Create</string>
+    <string name="enter_playlist_name">Enter playlist name</string>
+    <string name="playlist_name_too_long">Name too long</string>
+    <string name="playlist_name_used">Name already used</string>
+    <string name="select_playlist">Select playlist</string>
+    <string name="track_in_all_playlists">Track already in all playlists</string>
 </resources>

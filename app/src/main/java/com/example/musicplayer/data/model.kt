@@ -8,7 +8,7 @@ data class Track(
     val image: String,
     val duration: Int,
     var isFavorite: Boolean = false,
-    val containedInPlaylists: MutableSet<Playlist> = mutableSetOf()
+    val containedInPlaylists: MutableSet<String> = mutableSetOf()
 )
 
 data class Playlist(

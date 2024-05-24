@@ -29,12 +29,12 @@ fun FavoriteScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Row(
-            modifier = modifier.padding(16.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -60,7 +60,7 @@ fun FavoriteScreen(
             }
         } else {
             LazyColumn(
-                modifier = modifier.padding(vertical = 4.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
             ) {
                 items(
                     items = viewModel.getFavoritePlaylist(),
@@ -69,7 +69,7 @@ fun FavoriteScreen(
                         track = track,
                         onTrackClicked,
                         viewModel,
-                        modifier = modifier
+                        modifier = Modifier
                             .padding(4.dp)
                             .fillMaxWidth()
                     )

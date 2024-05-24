@@ -6,6 +6,9 @@ import com.example.musicplayer.data.Playlist
 import com.example.musicplayer.data.Track
 import com.example.musicplayer.network.MusicAPI
 import com.example.musicplayer.network.asDataModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -16,9 +19,16 @@ class MusicViewModel : ViewModel() {
     private val favoritePlaylist = mutableListOf<Track>()
     private val playlists = mutableListOf<Playlist>()
     private val playlistNames = mutableSetOf<String>()
+    private val playlistNamesWithoutTrack = mutableListOf<String>()
     private val selectedPlaylistTracks = mutableListOf<Track>()
     private lateinit var selectedTrack: Track
     private lateinit var selectedPlaylistName: String
+
+    private val _shouldShowDialog = MutableStateFlow(false)
+    val shouldShowDialog: StateFlow<Boolean> = _shouldShowDialog.asStateFlow()
+
+    private val _updatedPlaylist = MutableStateFlow(mutableListOf<Track>())
+    val updatedPlaylist: StateFlow<List<Track>> = _updatedPlaylist.asStateFlow()
 
     init {
         getMusicPlaylist()
@@ -44,11 +54,56 @@ class MusicViewModel : ViewModel() {
 
     fun checkIsIOException() = isIOException
 
+    fun setShowDialogState(state: Boolean) {
+        _shouldShowDialog.value = state
+    }
+
+    fun updatePlaylistState() {
+        _updatedPlaylist.value = selectedPlaylistTracks
+    }
+
     fun getHomePlaylist() = homePlaylist
 
     fun getFavoritePlaylist() = favoritePlaylist
 
+    fun addPlaylist(playlist: Playlist) {
+        playlistNames.add(playlist.name)
+        playlists.add(playlist)
+    }
+
+    fun deleteSelectedPlaylist() {
+        playlistNames.remove(selectedPlaylistName)
+        for (track in homePlaylist){
+            if (
+                track.containedInPlaylists.contains(selectedPlaylistName)
+            ) track.containedInPlaylists.remove(selectedPlaylistName)
+        }
+        for (playlist in playlists) {
+            if (selectedPlaylistName == playlist.name) {
+                playlists.remove(playlist)
+                break
+            }
+        }
+    }
+
     fun getPlaylists() = playlists
+
+    fun checkPlaylistNameUsed(playlistName: String): Boolean {
+        return playlistNames.contains(playlistName)
+    }
+
+    fun setPlaylistNamesWithoutTrack(track: Track) {
+        if (playlistNamesWithoutTrack.isNotEmpty()) {
+            playlistNamesWithoutTrack.clear()
+        }
+        for (playlist in playlists) {
+            if (!track.containedInPlaylists.contains(playlist.name)) {
+                playlistNamesWithoutTrack.add(playlist.name)
+            }
+        }
+    }
+
+    fun getPlaylistNamesWithoutTrack() = playlistNamesWithoutTrack
 
     fun selectTrack(track: Track) {
         selectedTrack = track
@@ -57,8 +112,9 @@ class MusicViewModel : ViewModel() {
     fun getSelectedTrack() = selectedTrack
 
     fun selectPlaylist(playlist: Playlist) {
-        selectedPlaylistName = playlist.name
+        selectPlaylistName(playlist.name)
         selectPlaylistTracks(playlist.tracks)
+        updatePlaylistState()
     }
 
     fun selectPlaylistName(name: String) {
@@ -68,10 +124,10 @@ class MusicViewModel : ViewModel() {
     fun getSelectedPlaylistName() = selectedPlaylistName
 
     fun selectPlaylistTracks(tracks: List<Track>) {
+        if (selectedPlaylistTracks.isNotEmpty()) {
+            selectedPlaylistTracks.clear()
+        }
         if (tracks.isNotEmpty()) {
-            if (selectedPlaylistTracks.isNotEmpty()) {
-                selectedPlaylistTracks.clear()
-            }
             selectedPlaylistTracks.addAll(tracks)
         }
     }
@@ -113,6 +169,7 @@ class MusicViewModel : ViewModel() {
                 break
             }
         }
+        track.containedInPlaylists.add(selectedPlaylistName)
     }
 
     fun deleteFromSelectedPLaylist(track: Track) {
@@ -122,6 +179,8 @@ class MusicViewModel : ViewModel() {
                 break
             }
         }
+        track.containedInPlaylists.remove(selectedPlaylistName)
+        updatePlaylistState()
     }
 
     fun changeFavoritePlaylist(trackToChange: Track) {

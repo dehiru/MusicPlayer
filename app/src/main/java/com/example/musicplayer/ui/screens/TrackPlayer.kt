@@ -221,7 +221,6 @@ fun TrackPlayer(
                     modifier = Modifier.size(64.dp)
                 )
             }
-
         }
     }
 }

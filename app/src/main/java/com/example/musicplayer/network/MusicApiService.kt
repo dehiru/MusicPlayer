@@ -6,13 +6,13 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.GET
 
-private const val baseUrl = "https://storage.googleapis.com/uamp/"
+private const val BASE_URL = "https://storage.googleapis.com/uamp/"
 
 private val contentType = "application/json".toMediaType()
 
 private val retrofit: Retrofit = Retrofit.Builder()
     .addConverterFactory(Json.asConverterFactory(contentType))
-    .baseUrl(baseUrl)
+    .baseUrl(BASE_URL)
     .build()
 
 interface MusicApiService {

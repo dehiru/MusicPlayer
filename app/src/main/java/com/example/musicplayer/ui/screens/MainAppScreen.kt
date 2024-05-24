@@ -56,8 +56,8 @@ data class BottomNavigationItem(
 @Composable
 fun MainAppScreen(
     viewModel: MusicViewModel,
-    navController: NavHostController = rememberNavController(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
 ) {
     val items = listOf(
         BottomNavigationItem(
@@ -128,7 +128,7 @@ fun MainAppScreen(
         NavHost(
             navController = navController,
             startDestination = NavigationBarScreens.Home.name,
-            modifier = Modifier.padding(innerPadding)
+            modifier = modifier.padding(innerPadding)
         ) {
             composable(route = NavigationBarScreens.Home.name) {
                 if (selectedItemIndex != 0) selectedItemIndex = 0
@@ -167,16 +167,21 @@ fun MainAppScreen(
             }
             composable(route = SecondaryScreens.EditProfile.name) {
                 EditProfileScreen(
-                    onSaveButtonClicked =  {
-                        navController.popBackStack(NavigationBarScreens.Profile.name, inclusive = false)
-                    },
-                    onCancelButtonClicked =  {
-                        navController.popBackStack(NavigationBarScreens.Profile.name, inclusive = false)
+                    onButtonClicked =  {
+                        navController.navigateUp()
                     }
                 )
             }
             composable(route = SecondaryScreens.SelectedPlaylist.name) {
-                SelectedPlaylistScreen(viewModel = viewModel)
+                SelectedPlaylistScreen(
+                    viewModel = viewModel,
+                    onArrowBackClicked = {
+                        navController.navigateUp()
+                    },
+                    onTrackClicked = {
+                        navController.navigate(SecondaryScreens.TrackPlayer.name)
+                    }
+                )
             }
             composable(route = SecondaryScreens.TrackPlayer.name) {
                 TrackPlayer(viewModel = viewModel)

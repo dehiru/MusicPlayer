@@ -27,24 +27,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.musicplayer.R
+import com.example.musicplayer.data.Playlist
 import com.example.musicplayer.ui.MusicViewModel
 
 @Composable
 fun CreatePlaylistDialog(
-    viewModel: MusicViewModel
+    viewModel: MusicViewModel,
+    modifier: Modifier = Modifier
 ) {
     var playlistNameInput by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
-    var shouldDismiss by remember { mutableStateOf(false) }
-    if (shouldDismiss) return
+    var supportingText: Int? by remember { mutableStateOf(null) }
+
     Dialog(onDismissRequest = {
-        shouldDismiss = true
+        viewModel.setShowDialogState(false)
     }, properties = DialogProperties(
         dismissOnBackPress = true,
         dismissOnClickOutside = true
     )) {
         Card(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(240.dp),
             shape = RoundedCornerShape(16.dp)
@@ -63,6 +65,7 @@ fun CreatePlaylistDialog(
                 )
                 EditTextField(
                     label = R.string.playlist_name,
+                    supportingText = supportingText,
                     isError = isError,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Text,
@@ -76,15 +79,32 @@ fun CreatePlaylistDialog(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     TextButton(
-                        onClick = { shouldDismiss = true },
+                        onClick = {
+                            viewModel.setShowDialogState(false)
+                        },
                         modifier = Modifier.padding(8.dp),
                     ) {
                         Text(stringResource(id = R.string.cancel))
                     }
                     TextButton(
                         onClick = {
-                            shouldDismiss = true
-                            //validation
+                            if (playlistNameInput.isBlank()) {
+                                isError = true
+                                supportingText = R.string.enter_playlist_name
+                            } else if (playlistNameInput.length > 50) {
+                                isError = true
+                                supportingText = R.string.playlist_name_too_long
+                            } else if (
+                                viewModel.checkPlaylistNameUsed(playlistNameInput)
+                                ) {
+                                isError = true
+                                supportingText = R.string.playlist_name_used
+                            } else {
+                                viewModel.addPlaylist(
+                                    Playlist(playlistNameInput, mutableListOf())
+                                )
+                                viewModel.setShowDialogState(false)
+                            }
                         },
                         modifier = Modifier.padding(8.dp),
                     ) {
