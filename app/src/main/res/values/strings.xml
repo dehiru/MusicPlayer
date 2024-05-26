@@ -38,4 +38,5 @@
     <string name="playlist_name_used">Name already used</string>
     <string name="select_playlist">Select playlist</string>
     <string name="track_in_all_playlists">Track already in all playlists</string>
+    <string name="create_new_playlist">Create a new playlist</string>
 </resources>

@@ -61,7 +61,7 @@ fun TrackItem(
     val coroutineScope = rememberCoroutineScope()
     val waitWhileToastShowing: () -> Unit = {
         coroutineScope.launch {
-            delay(3500)
+            delay(2000)
             showBottomSheet = false
         }
     }
@@ -70,8 +70,10 @@ fun TrackItem(
         if (viewModel.getPlaylistNamesWithoutTrack().isEmpty()) {
             Toast.makeText(
                 LocalContext.current,
-                stringResource(R.string.track_in_all_playlists),
-                Toast.LENGTH_LONG
+                if (viewModel.getPlaylists().isEmpty()) {
+                    stringResource(R.string.create_new_playlist)
+                } else stringResource(R.string.track_in_all_playlists),
+                Toast.LENGTH_SHORT
             ).show()
             waitWhileToastShowing()
         } else {
