@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">MusicPlayer</string>
+    <string name="unable_to_access_network">Unable to access\nthe network</string>
+    <string name="error_403_forbidden">403 Error\nForbidden</string>
+    <string name="authorization">Authorization</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="wrong_username_or_password">Wrong username or password</string>
+    <string name="log_in">Log in</string>
+    <string name="register">Register</string>
+    <string name="registration">Registration</string>
+    <string name="cancel">Cancel</string>
+    <string name="username_too_short">Username too short</string>
+    <string name="username_too_long">Username too long</string>
+    <string name="password_too_short">Password too short</string>
+    <string name="password_too_long">Password too long</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="playlists">Playlists</string>
+    <string name="profile">Profile</string>
+    <string name="edit">Edit</string>
+    <string name="profile_fields_delimiter" translatable="false">": "</string>
+    <string name="profile_editing">Profile editing</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="phone">Phone</string>
+    <string name="email_wrong">Wrong email</string>
+    <string name="phone_too_short">Phone too short</string>
+    <string name="phone_too_long">Phone too long</string>
+    <string name="save">Save</string>
+    <string name="new_playlist_button_text">+ new</string>
+    <string name="playlist_empty">Playlist is empty</string>
+    <string name="no_playlists">No playlists</string>
+    <string name="new_playlist_dialog_title">New playlist</string>
+    <string name="playlist_name">Playlist name</string>
+    <string name="create">Create</string>
+    <string name="enter_playlist_name">Enter playlist name</string>
+    <string name="playlist_name_too_long">Name too long</string>
+    <string name="playlist_name_used">Name already used</string>
+    <string name="select_playlist">Select playlist</string>
+    <string name="track_in_all_playlists">Track already in all playlists</string>
+    <string name="create_new_playlist">Create a new playlist</string>
+</resources>
