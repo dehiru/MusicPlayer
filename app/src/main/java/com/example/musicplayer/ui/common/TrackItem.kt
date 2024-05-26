@@ -43,6 +43,7 @@ import coil.request.ImageRequest
 import com.example.musicplayer.R
 import com.example.musicplayer.data.Track
 import com.example.musicplayer.ui.MusicViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,6 +58,13 @@ fun TrackItem(
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    val waitWhileToastShowing: () -> Unit = {
+        coroutineScope.launch {
+            delay(3500)
+            showBottomSheet = false
+        }
+    }
 
     if (showBottomSheet) {
         if (viewModel.getPlaylistNamesWithoutTrack().isEmpty()) {
@@ -64,8 +72,8 @@ fun TrackItem(
                 LocalContext.current,
                 stringResource(R.string.track_in_all_playlists),
                 Toast.LENGTH_LONG
-            )
-            showBottomSheet = false
+            ).show()
+            waitWhileToastShowing()
         } else {
             ModalBottomSheet(
                 onDismissRequest = {

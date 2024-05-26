@@ -121,9 +121,7 @@ fun checkAuthorization(
 ) : Boolean {
     val usernameStored = preferencesManager.getData("username", "")
     val passwordStored = preferencesManager.getData("password", "")
-    if ((usernameInput == usernameStored) && (passwordInput == passwordStored)) {
-        return true
-    } else return false
+    return (usernameInput == usernameStored) && (passwordInput == passwordStored)
 }
 
 @Preview(showBackground = true)

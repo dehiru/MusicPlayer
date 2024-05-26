@@ -84,7 +84,7 @@ fun PlaylistTrackItem(
                 ) {
                     IconButton(
                         onClick = {
-                            viewModel.deleteFromSelectedPLaylist(track)
+                            viewModel.deleteFromSelectedPlaylist(track)
                         }
                     ) {
                         Icon(

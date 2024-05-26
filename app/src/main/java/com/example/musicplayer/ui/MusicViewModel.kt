@@ -172,7 +172,7 @@ class MusicViewModel : ViewModel() {
         track.containedInPlaylists.add(selectedPlaylistName)
     }
 
-    fun deleteFromSelectedPLaylist(track: Track) {
+    fun deleteFromSelectedPlaylist(track: Track) {
         for (item in playlists) {
             if (selectedPlaylistName == item.name) {
                 item.tracks.remove(track)
